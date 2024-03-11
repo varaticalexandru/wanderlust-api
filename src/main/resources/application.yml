@@ -1,0 +1,13 @@
+server:
+  port: 8000
+
+logging:
+  level:
+    org.alexv.wanderlustapi.client: DEBUG
+
+pixabay:
+  api:
+    key: ${PIXABAY_API_KEY}
+  media:
+    fetch:
+      url: "https://pixabay.com/api"
