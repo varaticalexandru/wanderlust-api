@@ -1,4 +1,4 @@
-package org.alexv.wanderlustapi.api.controller;
+package org.alexv.wanderlustapi.api.controller.pixabay;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
