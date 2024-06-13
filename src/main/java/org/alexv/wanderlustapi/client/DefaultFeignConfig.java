@@ -16,6 +16,6 @@ public class DefaultFeignConfig {
 
     @Bean
     public Logger.Level feignLoggerLevel() {
-        return Logger.Level.BASIC;
+        return Logger.Level.FULL;
     }
 }
