@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/recommendations")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
@@ -23,9 +23,7 @@ public class OpenaiController {
     RecommendationsClient recommendationsClient;
     OpenaiService openaiService;
 
-    public static final String FETCH_RECOMMENDATIONS = "/recommendations";
-
-    @PostMapping(FETCH_RECOMMENDATIONS)
+    @PostMapping()
     public RecommendationsResponseDto getRecommendations(
             @RequestBody RecommendationsRequestDto request
     ) {
