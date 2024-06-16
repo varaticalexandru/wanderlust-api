@@ -20,6 +20,10 @@ public class RecommendationsResponseDto {
     Integer tripLength;
     String startDate;
     String endDate;
+    String budget;
+    String companion;
+    String children;
+    String pets;
     Integer dailyRecommendationsNumber;
     String summary;
     List<DailyScheduleDto> schedule;
