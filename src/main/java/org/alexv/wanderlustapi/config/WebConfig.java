@@ -15,6 +15,7 @@ public class WebConfig {
             public void addCorsMappings(CorsRegistry corsRegistry) {
                 corsRegistry
                         .addMapping("/api/**")
+                        .allowedMethods("*")
                         .allowedOrigins("http://localhost:4200");
             }
 
