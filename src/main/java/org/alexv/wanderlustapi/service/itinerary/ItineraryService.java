@@ -1,53 +1,21 @@
 package org.alexv.wanderlustapi.service.itinerary;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.alexv.wanderlustapi.api.dto.itinerary.ItinerariesDto;
 import org.alexv.wanderlustapi.api.dto.itinerary.ItineraryDto;
-import org.alexv.wanderlustapi.model.persistence.entity.Itinerary;
-import org.alexv.wanderlustapi.model.persistence.repository.ItineraryRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+public interface ItineraryService {
 
-@Service
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class ItineraryService {
+    ItinerariesDto getAllItineraries();
 
-    ItineraryRepository itineraryRepository;
-    ModelMapper modelMapper;
+    ItinerariesDto getItinerariesByUserId(String userId);
 
-    public ItinerariesDto getAllItineraries() {
+    ItinerariesDto getItinerariesByUserEmail(String userEmail);
 
-        List<Itinerary> itineraries = itineraryRepository.findAll();
-        List<ItineraryDto> itineraryDtos = itineraries.stream()
-                .map(itinerary -> modelMapper.map(itinerary, ItineraryDto.class))
-                .toList();
+    ItineraryDto saveItinerary(String userId, ItineraryDto itineraryDto);
 
-        return ItinerariesDto.builder().itineraries(itineraryDtos).build();
-    }
+    ItineraryDto saveItineraryByUserEmail(String userEmail, ItineraryDto itineraryDto);
 
-    public ItineraryDto saveItinerary(ItineraryDto itineraryDto) {
+    ItineraryDto getItineraryById(String id);
 
-        Itinerary itinerary = modelMapper.map(itineraryDto, Itinerary.class);
-        Itinerary savedItinerary = itineraryRepository.save(itinerary);
-
-        return modelMapper.map(savedItinerary, ItineraryDto.class);
-    }
-
-    public ItineraryDto getItineraryById(String id) {
-
-        Itinerary itinerary = itineraryRepository.findById(id).orElseThrow();
-
-        return modelMapper.map(itinerary, ItineraryDto.class);
-    }
-
-    public Boolean deleteItinerary(String id) {
-        itineraryRepository.deleteById(id);
-
-        return true;
-    }
+    Boolean deleteItinerary(String id);
 }
