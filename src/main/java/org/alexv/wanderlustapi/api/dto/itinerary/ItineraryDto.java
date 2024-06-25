@@ -2,7 +2,10 @@ package org.alexv.wanderlustapi.api.dto.itinerary;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.alexv.wanderlustapi.api.dto.user.UserDto;
+import org.alexv.wanderlustapi.api.dto.user.UserInfoDto;
 import org.alexv.wanderlustapi.model.persistence.entity.DailySchedule;
+import org.alexv.wanderlustapi.model.persistence.entity.UserInfo;
 
 import java.util.List;
 
@@ -31,4 +34,6 @@ public class ItineraryDto {
     Boolean pets;
     String summary;
     List<DailySchedule> schedule;
+
+    UserDto user;
 }
