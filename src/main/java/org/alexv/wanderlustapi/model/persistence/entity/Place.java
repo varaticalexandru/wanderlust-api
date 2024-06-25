@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class Place {
+    String id;
     String name;
     String description;
-    String id;
     Location location;
     Object content;
 }
