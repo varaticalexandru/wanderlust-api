@@ -17,7 +17,7 @@ public class RecommendationsRequestDto {
     String companion;
     Boolean pets;
     Boolean children;
-    String priceLevel;
+    String budget;
     List<String> interests;
     Integer dailyRecommendationsNumber;
 }
