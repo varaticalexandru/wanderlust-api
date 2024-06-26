@@ -47,7 +47,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(httpSecurityCsrfConfigurer -> {
+                    httpSecurityCsrfConfigurer.ignoringRequestMatchers(("/auth/user/**"));
+                    httpSecurityCsrfConfigurer.disable();
+                })
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
@@ -62,7 +65,9 @@ public class SecurityConfig {
                         "/swagger-config",
                         "/auth/welcome",
                         "/auth/register",
-                        "/auth/login"
+                        "/auth/login",
+                        "/auth/user/**",
+                        "/error"
                 ).permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/api/**",

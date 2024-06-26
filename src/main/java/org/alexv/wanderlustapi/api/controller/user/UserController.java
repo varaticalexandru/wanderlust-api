@@ -56,7 +56,6 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserDetailsDto updateUser(@PathVariable String id, @RequestBody UserUpdateDto userInfo) {
         return userInfoService.updateUser(id, userInfo);
     }

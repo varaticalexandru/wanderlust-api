@@ -73,17 +73,29 @@ public class UserInfoService implements UserDetailsService {
     }
 
     public UserDetailsDto updateUser(String id, UserUpdateDto userUpdateDto) {
+
         UserInfo userInfo = userInfoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
-        if (!Objects.equals(userInfo.getPassword(), passwordEncoder.encode(userUpdateDto.getCurrentPassword()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password");
+        boolean isEmailPresent = !userUpdateDto.getEmail().isBlank();
+        boolean isFirstNamePresent = !userUpdateDto.getFirstName().isBlank();
+        boolean isLastNamePresent = !userUpdateDto.getLastName().isBlank();
+        boolean isPasswordPresent = !userUpdateDto.getCurrentPassword().isBlank();
+
+        if (isPasswordPresent && !passwordEncoder.matches(userUpdateDto.getCurrentPassword(), userInfo.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid current password");
         }
 
+        userInfoRepository.findByEmail(userUpdateDto.getEmail()).ifPresent(user -> {
+            if (!Objects.equals(user.getId(), id)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with this email already exists: " + userUpdateDto.getEmail());
+            }
+        });
+
         userInfo.setId(id);
-        userInfo.setFirstName(userUpdateDto.getFirstName());
-        userInfo.setLastName(userUpdateDto.getLastName());
-        userInfo.setEmail(userUpdateDto.getEmail());
-        userInfo.setPassword(passwordEncoder.encode(userUpdateDto.getNewPassword()));
+        if (isFirstNamePresent) userInfo.setFirstName(userUpdateDto.getFirstName());
+        if (isLastNamePresent) userInfo.setLastName(userUpdateDto.getLastName());
+        if (isEmailPresent) userInfo.setEmail(userUpdateDto.getEmail());
+        if (isPasswordPresent) userInfo.setPassword(passwordEncoder.encode(userUpdateDto.getNewPassword()));
 
         UserInfo savedUser = userInfoRepository.save(userInfo);
         return modelMapper.map(savedUser, UserDetailsDto.class);
